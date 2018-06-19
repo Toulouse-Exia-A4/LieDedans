@@ -36,7 +36,7 @@ namespace AndroidAppBackend.Repositories
         {
             using (var ctx = new AppDBEntities())
             {
-                return ctx.Users;
+                return ctx.Users.ToList();
             }
         }
 

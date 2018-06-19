@@ -1,6 +1,5 @@
 ﻿namespace ServiceHost
 {
-    using ServiceHost.Entities;
     using System;
     using System.Data.Entity;
     using System.Linq;

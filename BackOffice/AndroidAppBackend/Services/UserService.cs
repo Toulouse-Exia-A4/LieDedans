@@ -14,25 +14,19 @@ namespace AndroidAppBackend.Services
     {
         public string Login(string username, string password)
         {
-            try
+            using (var repo = new UserRepository())
             {
-                using (var repo = new UserRepository())
-                {
-                    var usr = repo.Get().FirstOrDefault(x => x.Username == username);
+                var usrs = repo.Get();
+                var usr = usrs.FirstOrDefault(x => x.Username == username);
 
-                    if (usr != null)
-                    {
-                        if(usr.Password == password)
-                            return "OK";
-                        else
-                            throw new WebFaultException<string>("Wrong password !", System.Net.HttpStatusCode.BadRequest);
-                    }
-                    throw new WebFaultException<string>("Username doesn't exists.", System.Net.HttpStatusCode.BadRequest);
+                if (usr != null)
+                {
+                    if (usr.Password == password)
+                        return "OK";
+                    else
+                        throw new WebFaultException<string>("Wrong password !", System.Net.HttpStatusCode.BadRequest);
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new WebFaultException<string>("UserService.Register : Error ! \n" + ex.Message, System.Net.HttpStatusCode.InternalServerError);
+                throw new WebFaultException<string>("Username doesn't exists.", System.Net.HttpStatusCode.BadRequest);
             }
         }
 
