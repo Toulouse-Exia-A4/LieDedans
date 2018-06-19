@@ -1,5 +1,6 @@
 ﻿namespace ServiceHost
 {
+    using ServiceHost.Entities;
     using System;
     using System.Data.Entity;
     using System.Linq;
@@ -27,6 +28,31 @@
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<DevelopperProfile> DevelopperProfiles { get; set; }
         public virtual DbSet<ProjectChiefProfile> ProjectChiefProfiles { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Profile>()
+                .HasMany<Project>(s => s.ProposedProjects)
+                .WithMany(c => c.ProposedProfiles)
+                .Map(cs =>
+                    {
+                        cs.MapLeftKey("ProfileRefId");
+                        cs.MapRightKey("ProjectRefId");
+                        cs.ToTable("ProposedProfileProjects");
+                    }
+                );
+
+            modelBuilder.Entity<Profile>()
+                .HasMany<Project>(s => s.AcceptedProjects)
+                .WithMany(c => c.AcceptedProfiles)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("ProfileRefId");
+                    cs.MapRightKey("ProjectRefId");
+                    cs.ToTable("AcceptedProfileProjects");
+                }
+                );
+        }
     }
 
     //public class MyEntity

@@ -18,8 +18,8 @@ namespace ServiceHost
             ResponseFormat=WebMessageFormat.Json,
             RequestFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "login"
+            UriTemplate = "auth"
             )]
-        bool Login(User user);
+        User Login(User user);
     }
 }
