@@ -74,6 +74,11 @@ namespace ServiceHost
             Console.WriteLine("Profile Service Started...");
 
 
+            System.ServiceModel.ServiceHost projectServiceHost = new System.ServiceModel.ServiceHost(typeof(ProjectService));
+            projectServiceHost.Open();
+            Console.WriteLine("Project Service Started...");
+
+
             Console.ReadKey();
             loginServiceHost.Close();
             profileServiceHost.Close();
