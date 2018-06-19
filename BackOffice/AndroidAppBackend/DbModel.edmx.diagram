@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8832728e57234c4da721d6074c96b636" Name="Diagram1">
+        <EntityTypeShape EntityType="DBModel.DeveloperProfils" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Profils" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.ProjectChiefProfils" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Projects" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Users" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
+        <AssociationConnector Association="DBModel.FK_DeveloperProfils_Profil" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_ProjectChiefProfils_Profil" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_User_Profil" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Projects_ProjectChiefId" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.ProjectsAcceptedProfils" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.ProjectsProposedProfils" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

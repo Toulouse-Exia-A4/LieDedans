@@ -60,6 +60,8 @@
   <ItemGroup>
     <Compile Include="Entities\DevelopperProfile.cs" />
     <Compile Include="HttpResponse.cs" />
+    <Compile Include="Services\IProjectService.cs" />
+    <Compile Include="Services\ProjectService.cs" />
     <Compile Include="Services\ILoginService.cs" />
     <Compile Include="Services\IProfilService.cs" />
     <Compile Include="LnkdDataModel.cs" />

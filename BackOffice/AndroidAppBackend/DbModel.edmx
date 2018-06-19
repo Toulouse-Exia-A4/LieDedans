@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DeveloperProfils">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ProfilKey" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Profils">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="ContactDetails" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="ProjectChiefProfils">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ProfilKey" Type="int" Nullable="false" />
+          <Property Name="Experience" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ProjectChiefId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="ProjectsAcceptedProfils">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+            <PropertyRef Name="ProfilId" />
+          </Key>
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="ProfilId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectsProposedProfils">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+            <PropertyRef Name="ProfilId" />
+          </Key>
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="ProfilId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="Profil" Type="int" />
+        </EntityType>
+        <Association Name="FK_DeveloperProfils_Profil">
+          <End Role="Profils" Type="Self.Profils" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DeveloperProfils" Type="Self.DeveloperProfils" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profils">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeveloperProfils">
+              <PropertyRef Name="ProfilKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectChiefProfils_Profil">
+          <End Role="Profils" Type="Self.Profils" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProjectChiefProfils" Type="Self.ProjectChiefProfils" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profils">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectChiefProfils">
+              <PropertyRef Name="ProfilKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_ProjectChiefId">
+          <End Role="ProjectChiefProfils" Type="Self.ProjectChiefProfils" Multiplicity="1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectChiefProfils">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="ProjectChiefId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectsAcceptedProfils_Profils">
+          <End Role="Profils" Type="Self.Profils" Multiplicity="1" />
+          <End Role="ProjectsAcceptedProfils" Type="Self.ProjectsAcceptedProfils" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profils">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectsAcceptedProfils">
+              <PropertyRef Name="ProfilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectsAcceptedProfils_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectsAcceptedProfils" Type="Self.ProjectsAcceptedProfils" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectsAcceptedProfils">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectsProposedProfils_Profils">
+          <End Role="Profils" Type="Self.Profils" Multiplicity="1" />
+          <End Role="ProjectsProposedProfils" Type="Self.ProjectsProposedProfils" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profils">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectsProposedProfils">
+              <PropertyRef Name="ProfilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectsProposedProfils_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectsProposedProfils" Type="Self.ProjectsProposedProfils" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectsProposedProfils">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Profil">
+          <End Role="Profils" Type="Self.Profils" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profils">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Profil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBModelStoreContainer">
+          <EntitySet Name="DeveloperProfils" EntityType="Self.DeveloperProfils" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Profils" EntityType="Self.Profils" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectChiefProfils" EntityType="Self.ProjectChiefProfils" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectsAcceptedProfils" EntityType="Self.ProjectsAcceptedProfils" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectsProposedProfils" EntityType="Self.ProjectsProposedProfils" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DeveloperProfils_Profil" Association="Self.FK_DeveloperProfils_Profil">
+            <End Role="Profils" EntitySet="Profils" />
+            <End Role="DeveloperProfils" EntitySet="DeveloperProfils" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectChiefProfils_Profil" Association="Self.FK_ProjectChiefProfils_Profil">
+            <End Role="Profils" EntitySet="Profils" />
+            <End Role="ProjectChiefProfils" EntitySet="ProjectChiefProfils" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_ProjectChiefId" Association="Self.FK_Projects_ProjectChiefId">
+            <End Role="ProjectChiefProfils" EntitySet="ProjectChiefProfils" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectsAcceptedProfils_Profils" Association="Self.FK_ProjectsAcceptedProfils_Profils">
+            <End Role="Profils" EntitySet="Profils" />
+            <End Role="ProjectsAcceptedProfils" EntitySet="ProjectsAcceptedProfils" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectsAcceptedProfils_Projects" Association="Self.FK_ProjectsAcceptedProfils_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectsAcceptedProfils" EntitySet="ProjectsAcceptedProfils" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectsProposedProfils_Profils" Association="Self.FK_ProjectsProposedProfils_Profils">
+            <End Role="Profils" EntitySet="Profils" />
+            <End Role="ProjectsProposedProfils" EntitySet="ProjectsProposedProfils" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectsProposedProfils_Projects" Association="Self.FK_ProjectsProposedProfils_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectsProposedProfils" EntitySet="ProjectsProposedProfils" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Profil" Association="Self.FK_User_Profil">
+            <End Role="Profils" EntitySet="Profils" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DeveloperProfils">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ProfilKey" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Profils" Relationship="Self.FK_DeveloperProfils_Profil" FromRole="DeveloperProfils" ToRole="Profils" />
+        </EntityType>
+        <EntityType Name="Profils">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContactDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DeveloperProfils" Relationship="Self.FK_DeveloperProfils_Profil" FromRole="Profils" ToRole="DeveloperProfils" />
+          <NavigationProperty Name="ProjectChiefProfils" Relationship="Self.FK_ProjectChiefProfils_Profil" FromRole="Profils" ToRole="ProjectChiefProfils" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_Profil" FromRole="Profils" ToRole="Users" />
+          <NavigationProperty Name="AcceptedProjects" Relationship="Self.ProjectsAcceptedProfils" FromRole="Profils" ToRole="Projects" />
+          <NavigationProperty Name="ProposedProjects" Relationship="Self.ProjectsProposedProfils" FromRole="Profils" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="ProjectChiefProfils">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ProfilKey" Type="Int32" Nullable="false" />
+          <Property Name="Experience" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Profils" Relationship="Self.FK_ProjectChiefProfils_Profil" FromRole="ProjectChiefProfils" ToRole="Profils" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Projects_ProjectChiefId" FromRole="ProjectChiefProfils" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ProjectChiefId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProjectChiefProfils" Relationship="Self.FK_Projects_ProjectChiefId" FromRole="Projects" ToRole="ProjectChiefProfils" />
+          <NavigationProperty Name="ProposedProfils" Relationship="Self.ProjectsAcceptedProfils" FromRole="Projects" ToRole="Profils" />
+          <NavigationProperty Name="AcceptedProfils" Relationship="Self.ProjectsProposedProfils" FromRole="Projects" ToRole="Profils" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Profil" Type="Int32" />
+          <NavigationProperty Name="Profils" Relationship="Self.FK_User_Profil" FromRole="Users" ToRole="Profils" />
+        </EntityType>
+        <Association Name="FK_DeveloperProfils_Profil">
+          <End Role="Profils" Type="Self.Profils" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DeveloperProfils" Type="Self.DeveloperProfils" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profils">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeveloperProfils">
+              <PropertyRef Name="ProfilKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectChiefProfils_Profil">
+          <End Role="Profils" Type="Self.Profils" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProjectChiefProfils" Type="Self.ProjectChiefProfils" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profils">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectChiefProfils">
+              <PropertyRef Name="ProfilKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Profil">
+          <End Role="Profils" Type="Self.Profils" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profils">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Profil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_ProjectChiefId">
+          <End Role="ProjectChiefProfils" Type="Self.ProjectChiefProfils" Multiplicity="1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectChiefProfils">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="ProjectChiefId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProjectsAcceptedProfils">
+          <End Role="Profils" Type="Self.Profils" Multiplicity="*" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+        </Association>
+        <Association Name="ProjectsProposedProfils">
+          <End Role="Profils" Type="Self.Profils" Multiplicity="*" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="AppDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DeveloperProfils" EntityType="Self.DeveloperProfils" />
+          <EntitySet Name="Profils" EntityType="Self.Profils" />
+          <EntitySet Name="ProjectChiefProfils" EntityType="Self.ProjectChiefProfils" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_DeveloperProfils_Profil" Association="Self.FK_DeveloperProfils_Profil">
+            <End Role="Profils" EntitySet="Profils" />
+            <End Role="DeveloperProfils" EntitySet="DeveloperProfils" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectChiefProfils_Profil" Association="Self.FK_ProjectChiefProfils_Profil">
+            <End Role="Profils" EntitySet="Profils" />
+            <End Role="ProjectChiefProfils" EntitySet="ProjectChiefProfils" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Profil" Association="Self.FK_User_Profil">
+            <End Role="Profils" EntitySet="Profils" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_ProjectChiefId" Association="Self.FK_Projects_ProjectChiefId">
+            <End Role="ProjectChiefProfils" EntitySet="ProjectChiefProfils" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="ProjectsAcceptedProfils" Association="Self.ProjectsAcceptedProfils">
+            <End Role="Profils" EntitySet="Profils" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="ProjectsProposedProfils" Association="Self.ProjectsProposedProfils">
+            <End Role="Profils" EntitySet="Profils" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="AppDBEntities">
+          <EntitySetMapping Name="DeveloperProfils">
+            <EntityTypeMapping TypeName="DBModel.DeveloperProfils">
+              <MappingFragment StoreEntitySet="DeveloperProfils">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProfilKey" ColumnName="ProfilKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Profils">
+            <EntityTypeMapping TypeName="DBModel.Profils">
+              <MappingFragment StoreEntitySet="Profils">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="ContactDetails" ColumnName="ContactDetails" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectChiefProfils">
+            <EntityTypeMapping TypeName="DBModel.ProjectChiefProfils">
+              <MappingFragment StoreEntitySet="ProjectChiefProfils">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProfilKey" ColumnName="ProfilKey" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="DBModel.Projects">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProjectChiefId" ColumnName="ProjectChiefId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DBModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Profil" ColumnName="Profil" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ProjectsAcceptedProfils" TypeName="DBModel.ProjectsAcceptedProfils" StoreEntitySet="ProjectsAcceptedProfils">
+            <EndProperty Name="Profils">
+              <ScalarProperty Name="Id" ColumnName="ProfilId" />
+            </EndProperty>
+            <EndProperty Name="Projects">
+              <ScalarProperty Name="Id" ColumnName="ProjectId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ProjectsProposedProfils" TypeName="DBModel.ProjectsProposedProfils" StoreEntitySet="ProjectsProposedProfils">
+            <EndProperty Name="Profils">
+              <ScalarProperty Name="Id" ColumnName="ProfilId" />
+            </EndProperty>
+            <EndProperty Name="Projects">
+              <ScalarProperty Name="Id" ColumnName="ProjectId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
