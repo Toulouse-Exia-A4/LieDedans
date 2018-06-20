@@ -110,6 +110,9 @@
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\ProfileService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Technology.cs">
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Users.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>

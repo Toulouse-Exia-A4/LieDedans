@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.ServiceModel.Web;
 using System.Text;
 
 namespace AndroidAppBackend.Services
@@ -33,6 +34,23 @@ namespace AndroidAppBackend.Services
             using (var repo = new ProfilsRepository())
             {
                 return repo.GetProposedProjects(int.Parse(id));
+            }
+        }
+
+        public void AssociateTechnologies(string id, ICollection<Technology> technologies)
+        {
+            using (var repo = new ProfilsRepository())
+            {
+                Profils profil = repo.Get(int.Parse(id));
+
+                if(profil != null)
+                {
+                    profil.DeveloperProfils.ElementAt<DeveloperProfils>(0).Technology.ToList().AddRange(technologies);
+                }
+                else
+                {
+                    throw new WebFaultException<string>("Profile not found !", System.Net.HttpStatusCode.BadRequest);
+                }
             }
         }
     }

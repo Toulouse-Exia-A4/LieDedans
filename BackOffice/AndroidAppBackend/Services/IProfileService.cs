@@ -41,5 +41,15 @@ namespace AndroidAppBackend.Services
             UriTemplate = "{id}/acceptedProjects"
             )]
         ICollection<Projects> GetAcceptedProjects(string id);
+
+        [OperationContract]
+        [WebInvoke(
+            Method = "POST",
+            ResponseFormat = WebMessageFormat.Json,
+            RequestFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Wrapped,
+            UriTemplate = "{id}/associateTechnologies"
+            )]
+        void AssociateTechnologies(string id, ICollection<Technology> technologies);
     }
 }
