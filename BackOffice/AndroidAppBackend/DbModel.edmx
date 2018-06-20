@@ -4,13 +4,21 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DeveloperProfils">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="ProfilKey" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DevelopersTechnology">
+          <Key>
+            <PropertyRef Name="DeveloperId" />
+            <PropertyRef Name="TechnologyId" />
+          </Key>
+          <Property Name="DeveloperId" Type="int" Nullable="false" />
+          <Property Name="TechnologyId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Profils">
           <Key>
@@ -54,6 +62,21 @@
           <Property Name="ProjectId" Type="int" Nullable="false" />
           <Property Name="ProfilId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ProjectsTechnology">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+            <PropertyRef Name="TechnologyId" />
+          </Key>
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="TechnologyId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Technology">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="Id" />
@@ -74,6 +97,30 @@
             </Principal>
             <Dependent Role="DeveloperProfils">
               <PropertyRef Name="ProfilKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DevelopersTechnology_Developer">
+          <End Role="DeveloperProfils" Type="Self.DeveloperProfils" Multiplicity="1" />
+          <End Role="DevelopersTechnology" Type="Self.DevelopersTechnology" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeveloperProfils">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DevelopersTechnology">
+              <PropertyRef Name="DeveloperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DevelopersTechnology_Technology">
+          <End Role="Technology" Type="Self.Technology" Multiplicity="1" />
+          <End Role="DevelopersTechnology" Type="Self.DevelopersTechnology" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Technology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DevelopersTechnology">
+              <PropertyRef Name="TechnologyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -151,6 +198,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProjectsTechnology_Project">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectsTechnology" Type="Self.ProjectsTechnology" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectsTechnology">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectsTechnology_Technology">
+          <End Role="Technology" Type="Self.Technology" Multiplicity="1" />
+          <End Role="ProjectsTechnology" Type="Self.ProjectsTechnology" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Technology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectsTechnology">
+              <PropertyRef Name="TechnologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_Profil">
           <End Role="Profils" Type="Self.Profils" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -167,15 +238,26 @@
         </Association>
         <EntityContainer Name="DBModelStoreContainer">
           <EntitySet Name="DeveloperProfils" EntityType="Self.DeveloperProfils" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DevelopersTechnology" EntityType="Self.DevelopersTechnology" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profils" EntityType="Self.Profils" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectChiefProfils" EntityType="Self.ProjectChiefProfils" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectsAcceptedProfils" EntityType="Self.ProjectsAcceptedProfils" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectsProposedProfils" EntityType="Self.ProjectsProposedProfils" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectsTechnology" EntityType="Self.ProjectsTechnology" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Technology" EntityType="Self.Technology" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_DeveloperProfils_Profil" Association="Self.FK_DeveloperProfils_Profil">
             <End Role="Profils" EntitySet="Profils" />
             <End Role="DeveloperProfils" EntitySet="DeveloperProfils" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DevelopersTechnology_Developer" Association="Self.FK_DevelopersTechnology_Developer">
+            <End Role="DeveloperProfils" EntitySet="DeveloperProfils" />
+            <End Role="DevelopersTechnology" EntitySet="DevelopersTechnology" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DevelopersTechnology_Technology" Association="Self.FK_DevelopersTechnology_Technology">
+            <End Role="Technology" EntitySet="Technology" />
+            <End Role="DevelopersTechnology" EntitySet="DevelopersTechnology" />
           </AssociationSet>
           <AssociationSet Name="FK_ProjectChiefProfils_Profil" Association="Self.FK_ProjectChiefProfils_Profil">
             <End Role="Profils" EntitySet="Profils" />
@@ -201,13 +283,20 @@
             <End Role="Projects" EntitySet="Projects" />
             <End Role="ProjectsProposedProfils" EntitySet="ProjectsProposedProfils" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProjectsTechnology_Project" Association="Self.FK_ProjectsTechnology_Project">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectsTechnology" EntitySet="ProjectsTechnology" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectsTechnology_Technology" Association="Self.FK_ProjectsTechnology_Technology">
+            <End Role="Technology" EntitySet="Technology" />
+            <End Role="ProjectsTechnology" EntitySet="ProjectsTechnology" />
+          </AssociationSet>
           <AssociationSet Name="FK_User_Profil" Association="Self.FK_User_Profil">
             <End Role="Profils" EntitySet="Profils" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -218,6 +307,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="ProfilKey" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Profils" Relationship="Self.FK_DeveloperProfils_Profil" FromRole="DeveloperProfils" ToRole="Profils" />
+          <NavigationProperty Name="Technology" Relationship="DBModel.DevelopersTechnology" FromRole="DeveloperProfils" ToRole="Technology" />
         </EntityType>
         <EntityType Name="Profils">
           <Key>
@@ -254,6 +344,7 @@
           <NavigationProperty Name="ProjectChiefProfils" Relationship="Self.FK_Projects_ProjectChiefId" FromRole="Projects" ToRole="ProjectChiefProfils" />
           <NavigationProperty Name="ProposedProfils" Relationship="Self.ProjectsAcceptedProfils" FromRole="Projects" ToRole="Profils" />
           <NavigationProperty Name="AcceptedProfils" Relationship="Self.ProjectsProposedProfils" FromRole="Projects" ToRole="Profils" />
+          <NavigationProperty Name="Technology" Relationship="DBModel.ProjectsTechnology" FromRole="Projects" ToRole="Technology" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -357,7 +448,33 @@
             <End Role="Profils" EntitySet="Profils" />
             <End Role="Projects" EntitySet="Projects" />
           </AssociationSet>
+          <EntitySet Name="Technology" EntityType="DBModel.Technology" />
+          <AssociationSet Name="DevelopersTechnology" Association="DBModel.DevelopersTechnology">
+            <End Role="DeveloperProfils" EntitySet="DeveloperProfils" />
+            <End Role="Technology" EntitySet="Technology" />
+          </AssociationSet>
+          <AssociationSet Name="ProjectsTechnology" Association="DBModel.ProjectsTechnology">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Technology" EntitySet="Technology" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Technology">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="DeveloperProfils" Relationship="DBModel.DevelopersTechnology" FromRole="Technology" ToRole="DeveloperProfils" />
+          <NavigationProperty Name="Projects" Relationship="DBModel.ProjectsTechnology" FromRole="Technology" ToRole="Projects" />
+        </EntityType>
+        <Association Name="DevelopersTechnology">
+          <End Type="DBModel.DeveloperProfils" Role="DeveloperProfils" Multiplicity="*" />
+          <End Type="DBModel.Technology" Role="Technology" Multiplicity="*" />
+        </Association>
+        <Association Name="ProjectsTechnology">
+          <End Type="DBModel.Projects" Role="Projects" Multiplicity="*" />
+          <End Type="DBModel.Technology" Role="Technology" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -422,6 +539,30 @@
           <AssociationSetMapping Name="ProjectsProposedProfils" TypeName="DBModel.ProjectsProposedProfils" StoreEntitySet="ProjectsProposedProfils">
             <EndProperty Name="Profils">
               <ScalarProperty Name="Id" ColumnName="ProfilId" />
+            </EndProperty>
+            <EndProperty Name="Projects">
+              <ScalarProperty Name="Id" ColumnName="ProjectId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Technology">
+            <EntityTypeMapping TypeName="DBModel.Technology">
+              <MappingFragment StoreEntitySet="Technology">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="DevelopersTechnology" TypeName="DBModel.DevelopersTechnology" StoreEntitySet="DevelopersTechnology">
+            <EndProperty Name="Technology">
+              <ScalarProperty Name="Id" ColumnName="TechnologyId" />
+            </EndProperty>
+            <EndProperty Name="DeveloperProfils">
+              <ScalarProperty Name="Id" ColumnName="DeveloperId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ProjectsTechnology" TypeName="DBModel.ProjectsTechnology" StoreEntitySet="ProjectsTechnology">
+            <EndProperty Name="Technology">
+              <ScalarProperty Name="Id" ColumnName="TechnologyId" />
             </EndProperty>
             <EndProperty Name="Projects">
               <ScalarProperty Name="Id" ColumnName="ProjectId" />

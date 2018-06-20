@@ -30,5 +30,6 @@ namespace AndroidAppBackend
         public virtual DbSet<ProjectChiefProfils> ProjectChiefProfils { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Technology> Technology { get; set; }
     }
 }

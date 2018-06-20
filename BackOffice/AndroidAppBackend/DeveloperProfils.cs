@@ -14,9 +14,17 @@ namespace AndroidAppBackend
     
     public partial class DeveloperProfils
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public DeveloperProfils()
+        {
+            this.Technology = new HashSet<Technology>();
+        }
+    
         public int Id { get; set; }
         public int ProfilKey { get; set; }
     
         public virtual Profils Profils { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Technology> Technology { get; set; }
     }
 }

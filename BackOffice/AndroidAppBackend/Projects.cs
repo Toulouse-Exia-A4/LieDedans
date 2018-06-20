@@ -19,6 +19,7 @@ namespace AndroidAppBackend
         {
             this.ProposedProfils = new HashSet<Profils>();
             this.AcceptedProfils = new HashSet<Profils>();
+            this.Technology = new HashSet<Technology>();
         }
     
         public int Id { get; set; }
@@ -31,5 +32,7 @@ namespace AndroidAppBackend
         public virtual ICollection<Profils> ProposedProfils { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Profils> AcceptedProfils { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Technology> Technology { get; set; }
     }
 }

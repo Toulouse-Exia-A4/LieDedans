@@ -16,6 +16,9 @@
         <AssociationConnector Association="DBModel.FK_Projects_ProjectChiefId" ManuallyRouted="false" />
         <AssociationConnector Association="DBModel.ProjectsAcceptedProfils" ManuallyRouted="false" />
         <AssociationConnector Association="DBModel.ProjectsProposedProfils" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DBModel.Technology" Width="1.5" PointX="7.5" PointY="3" />
+        <AssociationConnector Association="DBModel.DevelopersTechnology" />
+        <AssociationConnector Association="DBModel.ProjectsTechnology" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
